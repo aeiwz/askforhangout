@@ -5,8 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>May I go to hangout with you?</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
+      padding: 0;
       height: 100vh;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
@@ -21,25 +26,25 @@
       border-radius: 20px;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
       backdrop-filter: blur(10px);
-      padding: 40px;
+      padding: 40px 20px;
       text-align: center;
       color: white;
       border: 1px solid rgba(255, 255, 255, 0.2);
       position: relative;
-      width: 600px;
-      height: 300px;
+      width: clamp(300px, 90vw, 600px);
+      height: clamp(300px, 60vh, 400px);
       overflow: hidden;
     }
 
     h1 {
-      font-size: 28px;
+      font-size: clamp(20px, 5vw, 28px);
       margin-bottom: 30px;
       letter-spacing: 1px;
     }
 
     button {
-      padding: 12px 28px;
-      font-size: 20px;
+      padding: 12px 24px;
+      font-size: clamp(16px, 4vw, 20px);
       border: none;
       border-radius: 30px;
       cursor: pointer;
@@ -67,9 +72,9 @@
 
     .emoji {
       position: absolute;
-      animation: floatUp 4s linear infinite;
+      animation: floatUp 4s linear forwards;
       opacity: 0;
-      font-size: 24px;
+      font-size: clamp(18px, 4vw, 28px);
       pointer-events: none;
     }
 
@@ -95,19 +100,28 @@
   <script>
     const btnYes = document.getElementById("btn-yes");
     const btnNo = document.getElementById("btn-no");
+    const container = document.querySelector(".container");
 
-    btnNo.style.left = "120px";
-    btnNo.style.top = "150px";
-    btnYes.style.left = "340px";
-    btnYes.style.top = "150px";
+    function setInitialButtonPositions() {
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      btnNo.style.left = width * 0.2 + "px";
+      btnNo.style.top = height * 0.6 + "px";
+      btnYes.style.left = width * 0.6 + "px";
+      btnYes.style.top = height * 0.6 + "px";
+    }
+
+    setInitialButtonPositions();
+    window.addEventListener("resize", setInitialButtonPositions);
 
     btnNo.addEventListener("mouseenter", () => {
-      const container = document.querySelector('.container');
       const rect = container.getBoundingClientRect();
       const maxWidth = rect.width - btnNo.offsetWidth;
       const maxHeight = rect.height - btnNo.offsetHeight;
+
       const newX = Math.floor(Math.random() * maxWidth);
-      const newY = Math.floor(Math.random() * maxHeight);
+      const newY = Math.floor(Math.random() * (maxHeight - 60)); // avoid overlapping title
+
       btnNo.style.left = `${newX}px`;
       btnNo.style.top = `${newY}px`;
     });
@@ -116,16 +130,15 @@
       alert("Thank you, I love you so much!");
     });
 
-    // Emoji floating animation
-    const container = document.querySelector('.container');
+    // Emoji floating
     const emojis = ['❤️', '✨', '💖', '🥰', '💫'];
 
     function createEmoji() {
-      const emoji = document.createElement('div');
-      emoji.classList.add('emoji');
+      const emoji = document.createElement("div");
+      emoji.classList.add("emoji");
       emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-      emoji.style.left = Math.random() * 90 + '%';
-      emoji.style.bottom = '0px';
+      emoji.style.left = Math.random() * 90 + "%";
+      emoji.style.bottom = "0px";
       container.appendChild(emoji);
 
       setTimeout(() => {
@@ -133,7 +146,6 @@
       }, 4000);
     }
 
-    // Emit emoji every 300ms
     setInterval(createEmoji, 300);
   </script>
 </body>
