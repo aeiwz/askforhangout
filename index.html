@@ -92,7 +92,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>May I go to hangout with you?</h1>
+    <h1>Do you want to go hangout with me?</h1>
     <button id="btn-no">No</button>
     <button id="btn-yes">Yes</button>
   </div>
@@ -114,17 +114,24 @@
     setInitialButtonPositions();
     window.addEventListener("resize", setInitialButtonPositions);
 
-    btnNo.addEventListener("mouseenter", () => {
-      const rect = container.getBoundingClientRect();
-      const maxWidth = rect.width - btnNo.offsetWidth;
-      const maxHeight = rect.height - btnNo.offsetHeight;
+  function moveNoButton() {
+    const rect = container.getBoundingClientRect();
+    const maxWidth = rect.width - btnNo.offsetWidth;
+    const maxHeight = rect.height - btnNo.offsetHeight;
 
-      const newX = Math.floor(Math.random() * maxWidth);
-      const newY = Math.floor(Math.random() * (maxHeight - 60)); // avoid overlapping title
+    const newX = Math.floor(Math.random() * maxWidth);
+    const newY = Math.floor(Math.random() * (maxHeight - 60)); // avoid overlapping title
 
-      btnNo.style.left = `${newX}px`;
-      btnNo.style.top = `${newY}px`;
-    });
+    btnNo.style.left = `${newX}px`;
+    btnNo.style.top = `${newY}px`;
+  }
+
+// Desktop
+btnNo.addEventListener("mouseenter", moveNoButton);
+
+// Mobile support
+btnNo.addEventListener("touchstart", moveNoButton, { passive: true });
+btnNo.addEventListener("pointerdown", moveNoButton);  // Fallback
 
     btnYes.addEventListener("click", () => {
       alert("Thank you, I love you so much!");
