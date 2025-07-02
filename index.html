@@ -25,6 +25,7 @@
       background: rgba(255, 255, 255, 0.1);
       border-radius: 20px;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+      -webkit-backdrop-filter: blur(10px);
       backdrop-filter: blur(10px);
       padding: 40px 20px;
       text-align: center;
@@ -63,6 +64,7 @@
       background: linear-gradient(145deg, #ff416c, #ff4b2b);
       color: #fff;
       box-shadow: 0 4px 15px rgba(255, 65, 108, 0.4);
+      transition: top 0.09s ease, left 0.3s ease;
     }
 
     button:hover {
@@ -92,7 +94,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Do you want to go hangout with me?</h1>
+    <h1>Do you want to hang out with me?</h1>
     <button id="btn-no">No</button>
     <button id="btn-yes">Yes</button>
   </div>
